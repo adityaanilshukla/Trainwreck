@@ -1,19 +1,7 @@
-import keys
-from telegram.ext import *
-from telegram import (
-    InlineKeyboardButton, 
-    InlineKeyboardMarkup,
-    Bot
-)
 from start import *
 from echo import *
-from datetime import time as timer
+from echolocation import *
 
-bot = Bot(keys.API_KEY)
-#individual_DB = IndividualSQite()
-#group_DB = GroupSQlite()
-
-print("Bot is running =)")
 def error_logging(update, context):
 
     """
@@ -30,7 +18,8 @@ def error_logging(update, context):
     
     """
 
-    print("Update %s caused error %s" % (update, context.error))
+    #print("From: " + str(context.) + "\nError: " + str(context.error) + "\n The update object was:\n" + str(update))
+    print("Error: " + str(context.error) + "\n The update object was:\n" + str(update))
 
 def main():
 
@@ -50,21 +39,15 @@ def main():
     #group_DB.setup()
     updater = Updater(keys.API_KEY, use_context=True)
     dp = updater.dispatcher
-    dp.add_handler(CommandHandler("start", start_command))
+    #dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("echo", echo_command))
-    #dp.add_handler(CommandHandler("guess", guess_command))
-    #dp.add_handler(CommandHandler("guess", guess_command))
-    #dp.add_handler(CommandHandler("add", add_interest_command))
-    #dp.add_handler(CommandHandler("remove", remove_interest_command))
-    #dp.add_handler(CommandHandler("myinterest", my_interest_command))
-    #dp.add_handler(CommandHandler("interest", interest_command))
-    #dp.add_handler(CommandHandler("setup", setup_command))
-    #dp.add_handler(CommandHandler("help", help_command))
+    dp.add_handler(MessageHandler(Filters.location & (~ Filters.update.edited_message), echolocation_command))
+    dp.add_handler(MessageHandler(Filters.location & Filters.update.edited_message, echolocation_recovery_command))
     dp.add_error_handler(error_logging)
     job = updater.job_queue
-    #job.run_daily(kick_users, time=timer(hour = 3, minute = 31, second = 00),days=(0, 1, 2, 3, 4, 5, 6))
-    #job.run_daily(send_link, time=timer(hour = 3, minute = 31, second = 0),days=(0, 1, 2, 3, 4, 5, 6))
+    job.run_repeating(echolocation_job, interval = 10)
     updater.start_polling()
     updater.idle()
 
+print("Bot is running =)")
 main()

@@ -1,13 +1,9 @@
-#from individual_sqlite import *
-#from tag import *
+from globals_and_dependencies import *
 
-#individual_DB = IndividualSQite()
 def echo_command(update, context):
 
     """
-    Starts the bot and add the user chat id and the valid interest tags into the individual database sqlite.
-    If the command is ran in private chat, the bot will scape off the interest tags from the user input and validate it before adding into database.
-    If the command is ran in group or supergroup, the bot will inform users to run it in private chat.
+    sends "echo" back lmao
 
     Parameters 
     ----------
@@ -24,4 +20,5 @@ def echo_command(update, context):
     chat_type = update.message.chat.type
     user_char_id = update.effective_user.id
 
-    update.message.reply_text("echo")
+    #update.message.reply_text("\uE29C85")
+    update.message.reply_text("\U00002705")

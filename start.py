@@ -1,7 +1,5 @@
-#from individual_sqlite import *
-#from tag import *
+from globals_and_dependencies import *
 
-#individual_DB = IndividualSQite()
 def start_command(update, context):
 
     """
