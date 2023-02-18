@@ -1,5 +1,8 @@
 from asyncore import dispatcher
-from trainwreck import * # do this to import API key, only importing keys does not work
+import keys
+from telegram import (
+    Bot
+)
 
 
 def img_command(update, context):

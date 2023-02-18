@@ -2,6 +2,7 @@ from start import *
 from echo import *
 from echolocation import *
 from send_image import *
+from register import *
 
 def error_logging(update, context):
 
@@ -31,6 +32,7 @@ def main():
     ----------
     None
 
+
     Returns
     -------
     None
@@ -43,6 +45,9 @@ def main():
     #dp.add_handler(CommandHandler("start", start_command))
     dp.add_handler(CommandHandler("echo", echo_command))
     dp.add_handler(CommandHandler("image", img_command))
+    dp.add_handler(CommandHandler("red", add_player_toTeam))
+    dp.add_handler(CommandHandler("blue", add_player_toTeam))
+    dp.add_handler(CommandHandler("observer", add_player_toTeam))
     dp.add_handler(MessageHandler(Filters.location & (~ Filters.update.edited_message), echolocation_command))
     dp.add_handler(MessageHandler(Filters.location & Filters.update.edited_message, echolocation_recovery_command))
     dp.add_error_handler(error_logging)
